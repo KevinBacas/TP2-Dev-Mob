@@ -7,10 +7,17 @@ import android.view.MenuItem;
 
 public class MainActivity extends AppCompatActivity {
 
+    private MyRSSHandler handler;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        handler = new MyRSSHandler();
+        handler.setUrl("http://www.nasa.gov/rss/image_of_the_day.rss");
+        // Est sensé provoquer une exception !
+        handler.processFeed();
     }
 
     @Override
