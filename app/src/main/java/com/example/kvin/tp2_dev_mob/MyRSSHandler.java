@@ -1,6 +1,7 @@
 package com.example.kvin.tp2_dev_mob;
 
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.util.Log;
 
 import org.xml.sax.Attributes;
@@ -9,7 +10,10 @@ import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
 import org.xml.sax.helpers.DefaultHandler;
 
+import java.io.IOException;
 import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.MalformedURLException;
 import java.net.URL;
 
 import javax.xml.parsers.SAXParser;
@@ -35,8 +39,6 @@ public class MyRSSHandler extends DefaultHandler {
     private StringBuffer date = new StringBuffer();
     // Le numéro de l'item à extraire du flux RSS
     private int numItem = 0;
-    // Le nombre total d’items dans le flux RSS
-    private int numItemMax = -1;
 
     public void setUrl(String url) {
         this.url = url;
@@ -52,7 +54,6 @@ public class MyRSSHandler extends DefaultHandler {
             InputStream inputStream = new URL(url).openStream();
             reader.parse(new InputSource(inputStream));
             image = getBitmap(imageURL);
-            numItemMax = numItem;
         } catch (Exception e) {
             Log.e("smb116rssview", "processFeed Exception " + e.getMessage());
         }
@@ -61,14 +62,79 @@ public class MyRSSHandler extends DefaultHandler {
     public void startElement(String uri,  String localName, String qName, Attributes attributes)
             throws SAXException {
         Log.v("startElement", qName);
+        if (qName == "title") {
+            this.inTitle = true;
+        } else if (qName == "description") {
+            this.inDescription = true;
+        } else if (qName == "pubDate") {
+            this.inDate = true;
+        } else if (qName == "enclosure") {
+            this.imageURL = attributes.getValue("url");
+        }
+        if (qName == "item") {
+            this.inItem = true;
+        }
     }
 
     public void characters(char ch[], int start, int length) {
         String chars = new String(ch).substring(start, start + length);
-        Log.v("startElement", chars);
+        if (this.inTitle) {
+            Log.v("inTitle", chars);
+            this.title = new StringBuffer(chars);
+            this.inTitle = false;
+        }
+        if (this.inDescription) {
+            Log.v("inDescription", chars);
+            this.description = new StringBuffer(chars);
+            this.inDescription = false;
+        }
+        if (this.inDate) {
+            Log.v("inDate", chars);
+            this.date = new StringBuffer(chars);
+            this.inDate = false;
+        }
+        if (this.inItem) {
+            Log.v("inItem", chars);
+            this.numItem++;
+            this.inItem = false;
+        }
     }
 
-    private Bitmap getBitmap(String imageURL) {
-        return null;
+    public Bitmap getBitmap(String imageURL) {
+        Log.v("getBitmap", imageURL);
+        try {
+            URL url = new URL(imageURL);
+            HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+            connection.setDoInput(true);
+            connection.connect();
+            InputStream input = connection.getInputStream();
+            Bitmap myBitmap = BitmapFactory.decodeStream(input);
+            return myBitmap;
+        } catch (IOException e) {
+            // Log exception
+            Log.e("IOException", e.toString());
+            return null;
+        }
+
+    }
+
+    public int getNumber() {
+        return this.numItem;
+    }
+
+    public String getTitle() {
+        return this.title.toString();
+    }
+
+    public String getDescription() {
+        return this.description.toString();
+    }
+
+    public String getDate() {
+        return this.date.toString();
+    }
+
+    public Bitmap getImage() {
+        return this.image;
     }
 }
