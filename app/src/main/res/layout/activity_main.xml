@@ -65,14 +65,11 @@
                 android:adjustViewBounds="true"
                 android:tag = "MyImageDisplay"
                 android:src="@drawable/test_image" />
-            <TextView
-                android:id="@+id/imageDescription"
+
+            <WebView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_marginBottom="10dp"
-                android:tag = "MyImageDescription"
-                android:text="@string/test_image_description" />
+                android:layout_height="match_parent"
+                android:id="@+id/imageDescription" />
         </LinearLayout>
     </ScrollView>
 </LinearLayout>

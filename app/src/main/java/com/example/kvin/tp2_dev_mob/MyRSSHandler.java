@@ -64,13 +64,14 @@ public class MyRSSHandler extends DefaultHandler {
         Log.v("startElement", qName);
         if(numItem == currScanNumItem) {
             if (qName == "title") {
+                this.title = new StringBuffer();
                 this.inTitle = true;
             } else if (qName == "description") {
+                this.description = new StringBuffer();
                 this.inDescription = true;
             } else if (qName == "pubDate") {
+                this.date = new StringBuffer();
                 this.inDate = true;
-            } else if (qName == "enclosure") {
-                this.imageURL = attributes.getValue("url");
             }
         }
         if (qName == "item") {
@@ -87,18 +88,25 @@ public class MyRSSHandler extends DefaultHandler {
         }
         if (this.inDescription) {
             Log.v("inDescription", chars);
-            this.description = new StringBuffer(chars);
-            this.inDescription = false;
+            this.description = new StringBuffer(this.description.toString() + chars);
         }
         if (this.inDate) {
             Log.v("inDate", chars);
-            this.date = new StringBuffer(chars);
             this.inDate = false;
+            this.date = new StringBuffer(chars);
         }
         if (this.inItem) {
             Log.v("inItem", chars);
             this.currScanNumItem++;
             this.inItem = false;
+        }
+    }
+
+    @Override
+    public void endElement (String uri, String localName, String qName)
+            throws SAXException {
+        if (qName == "description") {
+            this.inDescription = false;
         }
     }
 
@@ -117,7 +125,6 @@ public class MyRSSHandler extends DefaultHandler {
             Log.e("IOException", e.toString());
             return null;
         }
-
     }
 
     public int getNumber() {
