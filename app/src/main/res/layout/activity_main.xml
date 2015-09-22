@@ -1,72 +1,78 @@
-<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="fill_parent"
+<LinearLayout
+    android:orientation="vertical"
     android:layout_height="fill_parent"
-    android:id="@+id/scrollView"
-    android:tag = "MyScrollView"
-    tools:context=".MainActivity" >
-
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent">
     <LinearLayout
-        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/linearLayout"
-        android:tag = "MyLinearLayout"
-        android:orientation="vertical" >
+        android:layout_gravity="center_horizontal"
+        xmlns:android="http://schemas.android.com/apk/res/android">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/previous_button_label"
+            android:id="@+id/button"
+            android:layout_weight="0.5"
+            android:clickable="true"
+            android:onClick="loadPreviousItem" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/next_button_label"
+            android:id="@+id/button2"
+            android:layout_weight="0.5"
+            android:onClick="loadNextItem" />
+    </LinearLayout>
+    <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:id="@+id/scrollView"
+        android:tag = "MyScrollView"
+        tools:context=".MainActivity" >
 
         <LinearLayout
-            android:orientation="horizontal"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center_horizontal">
+            android:id="@+id/linearLayout"
+            android:tag = "MyLinearLayout"
+            android:orientation="vertical" >
 
-            <Button
+            <TextView
+                android:id="@+id/imageTitle"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/previous_button_label"
-                android:id="@+id/button"
-                android:layout_weight="0.5"
-                android:clickable="true"
-                android:onClick="loadPreviousItem" />
-
-            <Button
+                android:layout_marginBottom="10dp"
+                android:tag = "MyImageTitle"
+                android:text="@string/test_image_title" />
+            <TextView
+                android:id="@+id/imageDate"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/next_button_label"
-                android:id="@+id/button2"
-                android:layout_weight="0.5"
-                android:onClick="loadNextItem" />
+                android:layout_marginBottom="10dp"
+                android:tag = "MyImageDate"
+                android:text="@string/test_image_date"
+                />
+            <ImageView
+                android:id="@+id/imageDisplay"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:contentDescription="@string/description_image"
+                android:adjustViewBounds="true"
+                android:tag = "MyImageDisplay"
+                android:src="@drawable/test_image" />
+            <TextView
+                android:id="@+id/imageDescription"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:tag = "MyImageDescription"
+                android:text="@string/test_image_description" />
         </LinearLayout>
-
-        <TextView
-            android:id="@+id/imageTitle"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:tag = "MyImageTitle"
-            android:text="@string/test_image_title" />
-        <TextView
-            android:id="@+id/imageDate"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginBottom="10dp"
-            android:tag = "MyImageDate"
-            android:text="@string/test_image_date"
-            />
-        <ImageView
-            android:id="@+id/imageDisplay"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:contentDescription="@string/description_image"
-            android:adjustViewBounds="true"
-            android:tag = "MyImageDisplay"
-            android:src="@drawable/test_image" />
-        <TextView
-            android:id="@+id/imageDescription"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            android:tag = "MyImageDescription"
-            android:text="@string/test_image_description" />
-    </LinearLayout>
-</ScrollView>
+    </ScrollView>
+</LinearLayout>
