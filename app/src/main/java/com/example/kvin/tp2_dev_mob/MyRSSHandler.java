@@ -38,15 +38,16 @@ public class MyRSSHandler extends DefaultHandler {
     private StringBuffer description = new StringBuffer();
     private StringBuffer date = new StringBuffer();
     // Le numéro de l'item à extraire du flux RSS
-    private int numItem = 0;
+    private int numItem = 2;
+    private int currScanNumItem = 0;
 
     public void setUrl(String url) {
         this.url = url;
     }
 
     public void processFeed() {
+        currScanNumItem = 0;
         try {
-            numItem = 0; // A modifier pour visualiser un autre item
             SAXParserFactory factory = SAXParserFactory.newInstance();
             SAXParser parser = factory.newSAXParser();
             XMLReader reader = parser.getXMLReader();
@@ -62,14 +63,16 @@ public class MyRSSHandler extends DefaultHandler {
     public void startElement(String uri,  String localName, String qName, Attributes attributes)
             throws SAXException {
         Log.v("startElement", qName);
-        if (qName == "title") {
-            this.inTitle = true;
-        } else if (qName == "description") {
-            this.inDescription = true;
-        } else if (qName == "pubDate") {
-            this.inDate = true;
-        } else if (qName == "enclosure") {
-            this.imageURL = attributes.getValue("url");
+        if(numItem == currScanNumItem) {
+            if (qName == "title") {
+                this.inTitle = true;
+            } else if (qName == "description") {
+                this.inDescription = true;
+            } else if (qName == "pubDate") {
+                this.inDate = true;
+            } else if (qName == "enclosure") {
+                this.imageURL = attributes.getValue("url");
+            }
         }
         if (qName == "item") {
             this.inItem = true;
@@ -95,7 +98,7 @@ public class MyRSSHandler extends DefaultHandler {
         }
         if (this.inItem) {
             Log.v("inItem", chars);
-            this.numItem++;
+            this.currScanNumItem++;
             this.inItem = false;
         }
     }
@@ -136,5 +139,13 @@ public class MyRSSHandler extends DefaultHandler {
 
     public Bitmap getImage() {
         return this.image;
+    }
+
+    public void setNextNumItem() {
+        this.numItem++;
+    }
+
+    public void setPreviousNumItem() {
+        this.numItem--;
     }
 }

@@ -5,12 +5,38 @@
     android:id="@+id/scrollView"
     android:tag = "MyScrollView"
     tools:context=".MainActivity" >
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/linearLayout"
         android:tag = "MyLinearLayout"
         android:orientation="vertical" >
+
+        <LinearLayout
+            android:orientation="horizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal">
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/previous_button_label"
+                android:id="@+id/button"
+                android:layout_weight="0.5"
+                android:clickable="true"
+                android:onClick="loadPreviousItem" />
+
+            <Button
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/next_button_label"
+                android:id="@+id/button2"
+                android:layout_weight="0.5"
+                android:onClick="loadNextItem" />
+        </LinearLayout>
+
         <TextView
             android:id="@+id/imageTitle"
             android:layout_width="wrap_content"

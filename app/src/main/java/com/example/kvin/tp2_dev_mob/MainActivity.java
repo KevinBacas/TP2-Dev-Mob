@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -21,9 +22,24 @@ public class MainActivity extends AppCompatActivity {
 
         handler = new MyRSSHandler();
         handler.setUrl("http://www.nasa.gov/rss/image_of_the_day.rss");
+        this.launchRSSProcessing();
+    }
+
+    public void loadNextItem(View v) {
+        handler.setNextNumItem();
+        this.launchRSSProcessing();
+    }
+
+    public void loadPreviousItem(View v) {
+        handler.setPreviousNumItem();
+        this.launchRSSProcessing();
+    }
+
+    private void launchRSSProcessing() {
         Toast.makeText(this, "Chargement image: " + handler.getNumber(), Toast.LENGTH_LONG).show();
         new DownloadRSSTask(this).execute(handler);
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
