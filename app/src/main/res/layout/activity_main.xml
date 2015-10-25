@@ -27,6 +27,16 @@
             android:layout_weight="0.5"
             android:onClick="loadNextItem" />
     </LinearLayout>
+
+    <Button
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/refresh_button_label"
+        android:id="@+id/button3"
+        android:layout_gravity="center_horizontal"
+        android:clickable="true"
+        android:onClick="refreshRSSFeed" />
+
     <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="fill_parent"

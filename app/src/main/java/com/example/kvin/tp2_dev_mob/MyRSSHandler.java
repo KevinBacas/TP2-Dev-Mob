@@ -34,7 +34,7 @@ public class MyRSSHandler extends DefaultHandler {
     // Liste des éléments extraits du flux RSS
     private ArrayList<RedditRSSItem> rssItemList = new ArrayList<>();
     private RedditRSSItem currentItem = null;
-    //
+    // Permet d'indiquer si le flux a déjà été chargé
     private boolean loadedRss = false;
 
     public void setUrl(String url) {
@@ -136,16 +136,24 @@ public class MyRSSHandler extends DefaultHandler {
     }
 
     public void setNextNumItem() {
-        this.numItem++;
-        this.currentItem = this.rssItemList.get(this.numItem);
+        if((this.numItem + 1) < this.rssItemList.size()) {
+            this.numItem++;
+            this.currentItem = this.rssItemList.get(this.numItem);
+        }
     }
 
     public void setPreviousNumItem() {
-        this.numItem--;
-        this.currentItem = this.rssItemList.get(this.numItem);
+        if((this.numItem - 1) > 0) {
+            this.numItem--;
+            this.currentItem = this.rssItemList.get(this.numItem);
+        }
     }
 
     public boolean isRssLoaded() {
         return this.loadedRss;
+    }
+
+    public void setRssLoaded(boolean loaded) {
+        this.loadedRss = loaded;
     }
 }

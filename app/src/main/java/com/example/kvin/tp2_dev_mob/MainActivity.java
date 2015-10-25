@@ -37,6 +37,11 @@ public class MainActivity extends AppCompatActivity {
         this.launchRSSProcessing();
     }
 
+    public void refreshRSSFeed(View v) {
+        handler.setRssLoaded(false);
+        this.launchRSSProcessing();
+    }
+
     private void launchRSSProcessing() {
         Toast.makeText(this, "Chargement image: " + handler.getNumber(), Toast.LENGTH_LONG).show();
         new DownloadRSSTask(this).execute(handler);
